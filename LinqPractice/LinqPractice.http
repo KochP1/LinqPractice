@@ -1,0 +1,6 @@
+@LinqPractice_HostAddress = http://localhost:5217
+
+GET {{LinqPractice_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
