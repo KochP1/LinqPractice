@@ -64,7 +64,7 @@ namespace LinqPractice.Controllers
                                     CoArt = art.CodigoArticulo,
                                     ArtDes = art.DescripcionArticulo,
                                     Stock = art.Stock
-                                }).ToList()
+                                }).Take(50).ToList()
                             }).ToList()
                        }
                        ).ToList();
