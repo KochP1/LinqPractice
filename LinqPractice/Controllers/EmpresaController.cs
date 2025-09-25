@@ -80,8 +80,6 @@ namespace LinqPractice.Controllers
                 .AsNoTracking()
                 .Include(x => x.IdRolNavigation)
                 .Where(x => x.IdRol == "cfc893a3-e01a-400c-a25c-a58d01da061c")
-                .OrderBy(x => x.UserName)
-                .Skip(15)
                 .ToListAsync();
 
             var usuarioDto = (from u in usuario
@@ -92,7 +90,7 @@ namespace LinqPractice.Controllers
                                  Email = u.Email,
                                  Nombre = u.NombreCompleto.Trim(),
                                  Rol = u.IdRolNavigation.Name
-                             }).Take(18);
+                             }).Skip(15).Take(18);
             return Ok(usuarioDto);
         }
 
