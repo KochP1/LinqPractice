@@ -151,8 +151,9 @@ namespace LinqPractice.Controllers
         public async Task<IActionResult> GetCompras(string empresa)
         {
             var compra = await context.Gcompras
-                .Include(x => x.GcomprasDetalles)
-                .Where(c => c.Empresa == empresa && c.GcomprasDetalles.All(gd => gd.Costo > 2))
+                .AsNoTracking()
+                .Include(x => x.GcomprasDetalles.Where(y => y.Costo>2))
+                .Where(c => c.Empresa == empresa)
                 .ToListAsync();
 
             var compraDto = from c in compra
@@ -166,7 +167,7 @@ namespace LinqPractice.Controllers
                                     Codigo = g.Codigo,
                                     Descripcion = g.Descripcion,
                                     Costo = g.Costo
-                                }).ToArray()
+                                }).Take(50).ToArray()
                             };
 
             return Ok(compraDto);
