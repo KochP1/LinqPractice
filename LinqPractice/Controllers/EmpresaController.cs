@@ -46,6 +46,7 @@ namespace LinqPractice.Controllers
 
             var resultado = await context.Database
                 .SqlQueryRaw<EmpresaAlmacenDto>(sql)
+                .AsNoTracking()
                 .ToListAsync();
 
             var linq = resultado.GroupBy(x => new { x.BaseDato, x.Empresa })
@@ -76,6 +77,7 @@ namespace LinqPractice.Controllers
         {
 
             var usuario = await context.AspNetUsers
+                .AsNoTracking()
                 .Include(x => x.IdRolNavigation)
                 .Where(x => x.IdRol == "cfc893a3-e01a-400c-a25c-a58d01da061c")
                 .OrderBy(x => x.UserName)
@@ -100,6 +102,7 @@ namespace LinqPractice.Controllers
             try
             {
                 var cotizaciones = await context.Cotizacion_Cliente
+                    .AsNoTracking()
                     .Where(c => !c.Anulada && c.MontoNetoUsd.HasValue && c.MontoNetoUsd > 0)
                     .ToListAsync();
 
@@ -167,7 +170,7 @@ namespace LinqPractice.Controllers
                                     Codigo = g.Codigo,
                                     Descripcion = g.Descripcion,
                                     Costo = g.Costo
-                                }).Take(50).ToArray()
+                                }).Take(20).ToArray()
                             };
 
             return Ok(compraDto);
@@ -177,6 +180,7 @@ namespace LinqPractice.Controllers
         public async Task<ActionResult> GetComprasOdt()
         {
             var topOdc = await context.compras_ODC
+                .AsNoTracking()
                 .GroupJoin(
                     context.compras_ODC_detalle,
                     odc => odc.IdOdc,
